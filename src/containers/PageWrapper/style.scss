@@ -1,0 +1,19 @@
+.ant-layout-header,
+.ant-layout-footer {
+  color: #fff;
+
+  background: #107bcb;
+  height: 100px;
+  text-align: center;
+  font-size: 32px;
+  line-height: 100px;
+  padding: 0;
+}
+
+.ant-layout-content {
+  min-height: calc(100vh - 200px);
+  color: #fff;
+  line-height: 120px;
+  background: #7dbcea;
+  padding: 2rem;
+}
