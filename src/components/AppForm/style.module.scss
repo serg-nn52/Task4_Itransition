@@ -1,0 +1,17 @@
+.form {
+  width: 400px;
+  h2 {
+    color: #107bcb;
+    text-align: center;
+    font-size: 30px;
+    margin-bottom: 45px;
+  }
+  .buttons {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 30px;
+  }
+  button {
+    width: 150px;
+  }
+}
