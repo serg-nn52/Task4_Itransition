@@ -60,3 +60,33 @@ export const fetchRemoveUsers = createAsyncThunk(
     }
   },
 );
+
+export const fetchBanUsers = createAsyncThunk(
+  `ban/fetchAll`,
+  async (user, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.put('/api/users/ban', user);
+      // console.log('thank', response.data);
+      return response.data;
+    } catch (error) {
+      notification.error({ message: 'Ошибка!' });
+      console.log(user);
+      return rejectWithValue(error.message);
+    }
+  },
+);
+
+export const fetchUnblockUsers = createAsyncThunk(
+  `unblock/fetchAll`,
+  async (user, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.put('/api/users/unblock', user);
+      console.log('thank', response.data);
+      return response.data;
+    } catch (error) {
+      notification.error({ message: 'Ошибка!' });
+      console.log(user);
+      return rejectWithValue(error.message);
+    }
+  },
+);

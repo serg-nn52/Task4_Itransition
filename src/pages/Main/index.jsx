@@ -1,8 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Button } from 'antd';
-import { notification } from 'antd';
+import { useSelector } from 'react-redux';
 
 import { getAuth } from 'store/selectors';
 import { Navigate } from 'react-router-dom';
@@ -16,11 +14,7 @@ const Main = () => {
   return isAuth && isAuth !== 'loading' ? (
     <div className={style.wrapper}>
       <h1>Main page</h1>
-      <div className={style.buttons}>
-        <Button type="primary">Block</Button>
-        <Button type="primary">Unblock</Button>
-        <Button type="primary">Delete</Button>
-      </div>
+
       <TableUser />
     </div>
   ) : (

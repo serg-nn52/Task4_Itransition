@@ -3,6 +3,8 @@ import { fetchRegAction } from './thunk';
 import { fetchGetUserList } from './thunk';
 import { fetchLogin } from './thunk';
 import { fetchRemoveUsers } from './thunk';
+import { fetchBanUsers } from './thunk';
+import { fetchUnblockUsers } from './thunk';
 
 const initialState = {
   loading: false,
@@ -77,6 +79,32 @@ const userSlice = createSlice({
       state.users = action.payload;
     },
     [fetchRemoveUsers.rejected.type]: (state) => {
+      state.loading = true;
+      state.error = null;
+      state.auth = false;
+    },
+    [fetchBanUsers.pending.type]: (state) => {
+      state.loading = true;
+      state.error = null;
+    },
+    [fetchBanUsers.fulfilled.type]: (state, action) => {
+      state.loading = false;
+      state.users = action.payload;
+    },
+    [fetchBanUsers.rejected.type]: (state) => {
+      state.loading = true;
+      state.error = null;
+      state.auth = false;
+    },
+    [fetchUnblockUsers.pending.type]: (state) => {
+      state.loading = true;
+      state.error = null;
+    },
+    [fetchUnblockUsers.fulfilled.type]: (state, action) => {
+      state.loading = false;
+      state.users = action.payload;
+    },
+    [fetchUnblockUsers.rejected.type]: (state) => {
       state.loading = true;
       state.error = null;
       state.auth = false;

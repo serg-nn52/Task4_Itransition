@@ -4,8 +4,10 @@ import { getUsersList } from '../../store/selectors';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { fetchRemoveUsers } from 'store/thunk';
-
+import { fetchBanUsers } from 'store/thunk';
 import { fetchGetUserList } from 'store/thunk';
+import { fetchUnblockUsers } from 'store/thunk';
+import style from './style.module.scss';
 
 const TableUser = () => {
   const dispatch = useDispatch();
@@ -17,8 +19,6 @@ const TableUser = () => {
   useEffect(dispatchUserList, [dispatch]);
 
   const userList = useSelector(getUsersList);
-
-  // console.log(userList);
 
   const columns = [
     {
@@ -64,32 +64,40 @@ const TableUser = () => {
 
   const rowSelection = {
     onChange: (selectedRowKeys, selectedRows) => {
-      // console.log(
-      //   `selectedRowKeys: ${selectedRowKeys}`,
-      //   'selectedRows: ',
-      //   selectedRows,
-      // );
       setChek(selectedRows);
     },
-    // getCheckboxProps: (record) => ({
-    //   disabled: record.name === 'Disabled User',
-    //   name: record.name,
-    // }),
   };
-
-  // const test = rowSelection.getCheckboxProps();
 
   const checkedUsers = chek.map((el) => {
     return { id: el.id };
   });
 
-  const handler = () => {
+  const handlerRemove = () => {
     return dispatch(fetchRemoveUsers(checkedUsers));
+  };
+
+  const handlerBan = () => {
+    dispatch(fetchBanUsers(checkedUsers));
+  };
+
+  const handlerUnblock = () => {
+    dispatch(fetchUnblockUsers(checkedUsers));
   };
 
   return (
     <>
       {data.length === 0 && <h2>loading</h2>}
+      <div className={style.buttons}>
+        <Button type="primary" onClick={handlerBan}>
+          Block
+        </Button>
+        <Button type="primary" onClick={handlerUnblock}>
+          Unblock
+        </Button>
+        <Button type="primary" onClick={handlerRemove}>
+          Delete
+        </Button>
+      </div>
       <Table
         rowSelection={{
           type: 'checkbox',
@@ -98,7 +106,6 @@ const TableUser = () => {
         columns={columns}
         dataSource={data}
       />
-      <Button onClick={handler}>Remove me</Button>
     </>
   );
 };

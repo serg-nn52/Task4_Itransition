@@ -3,7 +3,6 @@ import { notification } from 'antd';
 import AppForm from 'components/AppForm';
 import { getAuth } from 'store/selectors';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchGetUserList } from 'store/thunk';
 import { Navigate } from 'react-router-dom';
 import { fetchRegAction } from 'store/thunk';
 
@@ -13,7 +12,6 @@ const Registration = () => {
 
   const onFinish = (value) => {
     dispatch(fetchRegAction(value));
-    // dispatch(fetchGetUserList());
   };
 
   const onFinishFailed = (errorInfo) => {
