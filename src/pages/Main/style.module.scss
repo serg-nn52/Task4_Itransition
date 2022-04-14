@@ -1,0 +1,15 @@
+.wrapper {
+  width: 1200px;
+  text-align: center;
+  h1 {
+    font-size: 35px;
+    text-align: center;
+  }
+  .buttons {
+    width: 300px;
+    display: flex;
+    justify-content: space-between;
+    margin: 0 auto;
+    margin-bottom: 50px;
+  }
+}

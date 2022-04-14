@@ -21,8 +21,8 @@ const AppForm = (props) => {
     >
       <h2>{formTitle}</h2>
       <Form.Item
-        label="Email"
-        name="email"
+        label="name"
+        name="name"
         rules={[
           {
             required: true,

@@ -1,43 +1,29 @@
 import React from 'react';
 import { notification } from 'antd';
 import AppForm from 'components/AppForm';
-import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
-import { useDispatch } from 'react-redux';
-import { setUser } from 'store/slice';
-import { useNavigate } from 'react-router-dom';
+import { getAuth } from 'store/selectors';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchGetUserList } from 'store/thunk';
+import { Navigate } from 'react-router-dom';
+import { fetchRegAction } from 'store/thunk';
 
 const Registration = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const isAuth = useSelector(getAuth);
 
-  const onFinish = ({ email, password }) => {
-    const auth = getAuth();
-
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        dispatch(
-          setUser({
-            email: user.email,
-            token: user.accessToken,
-            id: user.uid,
-            creationTime: user.metadata.creationTime,
-            lastSignInTime: user.metadata.lastSignInTime,
-          }),
-        );
-        navigate('/');
-      })
-      .catch((error) => {
-        console.error(error);
-        notification.error({ message: error.message });
-      });
+  const onFinish = (value) => {
+    dispatch(fetchRegAction(value));
+    // dispatch(fetchGetUserList());
   };
 
   const onFinishFailed = (errorInfo) => {
     notification.error({ message: 'Error sending!' });
     console.log('Failed:', errorInfo);
   };
-  return (
+
+  return isAuth && isAuth !== 'loading' ? (
+    <Navigate to="/" />
+  ) : (
     <div>
       <AppForm
         formTitle="Registration"

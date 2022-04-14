@@ -1,44 +1,26 @@
 import React from 'react';
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { getAuth } from 'store/selectors';
 import { notification } from 'antd';
-import { setUser } from 'store/slice';
 import AppForm from 'components/AppForm';
-import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { Navigate } from 'react-router-dom';
+import { fetchLogin } from 'store/thunk';
 
 const Login = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const isAuth = useSelector(getAuth);
 
-  const onFinish = ({ email, password }) => {
-    const auth = getAuth();
-
-    signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        dispatch(
-          setUser({
-            email: user.email,
-            token: user.accessToken,
-            id: user.uid,
-            creationTime: user.metadata.creationTime,
-            lastSignInTime: user.metadata.lastSignInTime,
-          }),
-        );
-        navigate('/');
-      })
-      .catch((error) => {
-        console.error(error);
-        notification.error({ message: error.message });
-      });
-    console.log('Success:', email, password);
+  const onFinish = (value) => {
+    dispatch(fetchLogin(value));
   };
 
   const onFinishFailed = (errorInfo) => {
     notification.error({ message: 'Error sending!' });
     console.log('Failed:', errorInfo);
   };
-  return (
+  return isAuth && isAuth !== 'loading' ? (
+    <Navigate to="/" />
+  ) : (
     <div>
       <AppForm
         formTitle="Authorization"

@@ -1,33 +1,27 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { Button } from 'antd';
 import { notification } from 'antd';
-import { Navigate, useNavigate } from 'react-router-dom';
-import { getAuth, signOut } from 'firebase/auth';
-import { removeUser } from 'store/slice';
-import { useAuth } from 'hooks/useAuth';
+
+import { getAuth } from 'store/selectors';
+import { Navigate } from 'react-router-dom';
+
+import style from './style.module.scss';
+import TableUser from 'components/tableUser';
 
 const Main = () => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const isAuth = useSelector(getAuth);
 
-  const { isAuth, email, token, id, creationTime, lastSignInTime } = useAuth();
-  const handler = () => {
-    const auth = getAuth();
-
-    signOut(auth)
-      .then(() => {})
-      .catch((error) => {
-        console.error(error);
-        notification.error({ message: error.message });
-      });
-    dispatch(removeUser());
-    console.log({ email, token, id, creationTime, lastSignInTime });
-    navigate('/login');
-  };
-  return isAuth ? (
-    <div>
-      <h1 style={{ textAlign: 'center' }}>Main page</h1>
-      <button onClick={() => handler()}>Log out from {email}</button>
+  return isAuth && isAuth !== 'loading' ? (
+    <div className={style.wrapper}>
+      <h1>Main page</h1>
+      <div className={style.buttons}>
+        <Button type="primary">Block</Button>
+        <Button type="primary">Unblock</Button>
+        <Button type="primary">Delete</Button>
+      </div>
+      <TableUser />
     </div>
   ) : (
     <Navigate to="/login" />
