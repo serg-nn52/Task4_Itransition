@@ -5,6 +5,7 @@ import { getAuth } from 'store/selectors';
 import { useDispatch, useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 import { fetchRegAction } from 'store/thunk';
+import { setUserID } from 'store/slice';
 
 const Registration = () => {
   const dispatch = useDispatch();
@@ -12,6 +13,7 @@ const Registration = () => {
 
   const onFinish = (value) => {
     dispatch(fetchRegAction(value));
+    dispatch(setUserID(value.name));
   };
 
   const onFinishFailed = (errorInfo) => {

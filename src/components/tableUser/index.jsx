@@ -7,6 +7,8 @@ import { fetchRemoveUsers } from 'store/thunk';
 import { fetchBanUsers } from 'store/thunk';
 import { fetchGetUserList } from 'store/thunk';
 import { fetchUnblockUsers } from 'store/thunk';
+import { resetAuth } from 'store/slice';
+import { getUserName } from 'store/selectors';
 import style from './style.module.scss';
 
 const TableUser = () => {
@@ -72,8 +74,13 @@ const TableUser = () => {
     return { id: el.id };
   });
 
+  const userName = useSelector(getUserName);
+
   const handlerRemove = () => {
-    return dispatch(fetchRemoveUsers(checkedUsers));
+    dispatch(fetchRemoveUsers(checkedUsers));
+    if (chek.filter((el) => el.name === userName).length) {
+      dispatch(resetAuth());
+    }
   };
 
   const handlerBan = () => {

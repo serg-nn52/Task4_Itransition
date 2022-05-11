@@ -2,8 +2,6 @@ const { User, connect } = require('./db');
 require('dotenv').config();
 const cors = require('cors');
 const path = require('path');
-
-// import { User, connect } from './db';
 const express = require('express');
 const jsonParser = express.json();
 const app = express();
@@ -33,6 +31,7 @@ app.post('/api/users/login', cors(), jsonParser, (req, res) => {
       where: {
         name: user.name,
         password: user.password,
+        status: true,
       },
     });
     userLog.forEach((el) => (el.dateLogin = new Date()));
@@ -48,13 +47,16 @@ app.post('/api/users', cors(), jsonParser, (req, res) => {
     return res.status(400).send();
   }
   const user = req.body;
-  // console.log(user);
   const setUser = async () => {
     user.dateReg = new Date();
-    await User.create(user);
-    console.log('Пользователь успешно создан!');
     const allUsers = await User.findAll();
-    res.send(allUsers);
+    if (allUsers.find((el) => el.name === user.name)) {
+      return res.status(409).send('Пользователь уже существует');
+    } else {
+      await User.create(user);
+      console.log('Пользователь успешно создан!');
+      res.send(allUsers);
+    }
   };
   setUser();
 });

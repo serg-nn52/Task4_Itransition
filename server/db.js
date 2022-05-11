@@ -1,9 +1,15 @@
 const { Sequelize, DataTypes } = require('sequelize');
+require('dotenv').config();
 
-const sequelize = new Sequelize('sys', 'root', 'root', {
-  host: 'localhost',
-  dialect: 'mysql',
-});
+const sequelize = new Sequelize(
+  process.env.DB,
+  process.env.LOGIN,
+  process.env.PASSWORD,
+  {
+    host: process.env.HOST,
+    dialect: 'mysql',
+  },
+);
 
 const User = sequelize.define(
   'User',
@@ -19,10 +25,10 @@ const User = sequelize.define(
       type: DataTypes.STRING,
     },
     dateLogin: {
-      type: DataTypes.DATE(6),
+      type: DataTypes.DATE,
     },
     dateReg: {
-      type: DataTypes.DATE(6),
+      type: DataTypes.DATE,
     },
 
     status: {
@@ -30,7 +36,8 @@ const User = sequelize.define(
       defaultValue: true,
     },
   },
-  //   { tableName: 'Employees' },
+  // { freezeTableName: true },
+  { tableName: 'Employees' },
 );
 
 const connect = async () => {
@@ -42,4 +49,4 @@ const connect = async () => {
     console.error('Unable to connect to the database:', error);
   }
 };
-module.exports = { User, connect };
+module.exports = { connect, User };

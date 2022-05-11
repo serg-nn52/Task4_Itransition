@@ -5,7 +5,6 @@ import { axiosInstance } from 'network';
 export const fetchRegAction = createAsyncThunk(
   `reg/fetchAll`,
   async (user, { rejectWithValue }) => {
-    console.log(user);
     try {
       const response = await axiosInstance.post('api/users/', {
         name: user.name,
@@ -13,8 +12,15 @@ export const fetchRegAction = createAsyncThunk(
       });
       return response.data;
     } catch (error) {
-      notification.error({ message: 'Ошибка регистрации!' });
-      return rejectWithValue(error.message);
+      if (error.response.status === 409) {
+        notification.error({
+          message: 'Пользователь с таким именем уже существует!',
+        });
+        return rejectWithValue(error.message);
+      } else {
+        notification.error({ message: 'Ошибка регистрации!' });
+        return rejectWithValue(error.message);
+      }
     }
   },
 );
@@ -40,8 +46,15 @@ export const fetchLogin = createAsyncThunk(
         password: user.password,
       });
     } catch (error) {
-      notification.error({ message: 'Ошибка авторизации!' });
-      return rejectWithValue(error.message);
+      if (error.response.status === 404) {
+        notification.error({
+          message: 'Пользователь с такими именем/паролем не найден!',
+        });
+        return rejectWithValue(error.message);
+      } else {
+        notification.error({ message: 'Ошибка авторизации!' });
+        return rejectWithValue(error.message);
+      }
     }
   },
 );
@@ -51,7 +64,6 @@ export const fetchRemoveUsers = createAsyncThunk(
   async (user, { rejectWithValue }) => {
     try {
       const response = await axiosInstance.post('api/users/delete/', user);
-      // console.log('thank', user);
       return response.data;
     } catch (error) {
       notification.error({ message: 'Ошибка авторизации!' });
@@ -66,7 +78,6 @@ export const fetchBanUsers = createAsyncThunk(
   async (user, { rejectWithValue }) => {
     try {
       const response = await axiosInstance.put('/api/users/ban', user);
-      // console.log('thank', response.data);
       return response.data;
     } catch (error) {
       notification.error({ message: 'Ошибка!' });
@@ -81,7 +92,6 @@ export const fetchUnblockUsers = createAsyncThunk(
   async (user, { rejectWithValue }) => {
     try {
       const response = await axiosInstance.put('/api/users/unblock', user);
-      console.log('thank', response.data);
       return response.data;
     } catch (error) {
       notification.error({ message: 'Ошибка!' });

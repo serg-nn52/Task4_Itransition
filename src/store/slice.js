@@ -11,25 +11,18 @@ const initialState = {
   auth: 'loading',
   users: [],
   error: null,
+  userID: null,
 };
 const userSlice = createSlice({
   name: 'reg',
   initialState,
   reducers: {
-    // setUser(state, action) {
-    //   state.email = action.payload.email;
-    //   state.token = action.payload.token;
-    //   state.id = action.payload.id;
-    //   state.creationTime = action.payload.creationTime;
-    //   state.lastSignInTime = action.payload.lastSignInTime;
-    // },
-    // removeUser(state) {
-    //   state.email = null;
-    //   state.token = null;
-    //   state.id = null;
-    //   state.creationTime = null;
-    //   state.lastSignInTime = null;
-    // },
+    setUserID(state, action) {
+      state.userID = action.payload;
+    },
+    resetAuth(state) {
+      state.auth = false;
+    },
   },
   extraReducers: {
     [fetchRegAction.pending.type]: (state) => {
@@ -112,5 +105,5 @@ const userSlice = createSlice({
   },
 });
 
-// export const { setUser, removeUser } = userSlice.actions;
+export const { setUserID, resetAuth } = userSlice.actions;
 export default userSlice.reducer;
