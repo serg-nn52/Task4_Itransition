@@ -3,8 +3,14 @@ import { useNavigate } from 'react-router-dom';
 import style from './style.module.scss';
 
 const AppForm = (props) => {
-  const { formTitle, buttonTitle, onFinish, onFinishFailed, pathRedirect } =
-    props;
+  const {
+    formTitle,
+    buttonTitle,
+    onFinish,
+    onFinishFailed,
+    pathRedirect,
+    isRegistration,
+  } = props;
   const navigate = useNavigate();
 
   return (
@@ -21,17 +27,32 @@ const AppForm = (props) => {
     >
       <h2>{formTitle}</h2>
       <Form.Item
-        label="name"
+        label="Name"
         name="name"
         rules={[
           {
             required: true,
-            message: 'Please input your email!',
+            message: 'Please input your name!',
           },
         ]}
       >
-        <Input placeholder="ivanov@gmail.com" />
+        <Input placeholder="Please input your name!" />
       </Form.Item>
+
+      {isRegistration ? (
+        <Form.Item
+          label="Email"
+          name="email"
+          rules={[
+            {
+              required: false,
+              message: 'Please input your email!',
+            },
+          ]}
+        >
+          <Input placeholder="ivanov@yandex.by" />
+        </Form.Item>
+      ) : null}
 
       <Form.Item
         label="Password"
@@ -43,7 +64,7 @@ const AppForm = (props) => {
           },
         ]}
       >
-        <Input.Password />
+        <Input.Password placeholder="Please input your password!" />
       </Form.Item>
 
       <Form.Item className={style.buttons}>

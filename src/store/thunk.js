@@ -9,6 +9,7 @@ export const fetchRegAction = createAsyncThunk(
       const response = await axiosInstance.post('api/users/', {
         name: user.name,
         password: user.password,
+        email: user.email,
       });
       return response.data;
     } catch (error) {

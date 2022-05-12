@@ -31,6 +31,7 @@ const Registration = () => {
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
         pathRedirect={'/login'}
+        isRegistration={true}
       />
     </div>
   );

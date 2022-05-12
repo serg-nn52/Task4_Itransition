@@ -7,14 +7,15 @@ import { Navigate } from 'react-router-dom';
 
 import style from './style.module.scss';
 import TableUser from 'components/tableUser';
+import LogOut from 'components/LogOut';
 
 const Main = () => {
   const isAuth = useSelector(getAuth);
 
   return isAuth && isAuth !== 'loading' ? (
     <div className={style.wrapper}>
+      <LogOut />
       <h1>Main page</h1>
-
       <TableUser />
     </div>
   ) : (
