@@ -128,9 +128,9 @@ app.put('/api/users/unblock', jsonParser, (req, res) => {
 });
 const port = process.env.PORT || 5000;
 
-app.use(express.static(path.resolve(__dirname, '../public')));
+app.use(express.static(path.resolve(__dirname, '../build')));
 app.get('*', (req, res) => {
-  res.sendFile(path.resolve(__dirname, '../public/index.html'));
+  res.sendFile(path.resolve(__dirname, '../build/index.html'));
 });
 
 app.listen(port, () => {

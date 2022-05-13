@@ -21,7 +21,7 @@ const LogOut = () => {
         className={style.btn}
         onClick={userLogOut}
       >
-        LogOut
+        Sign Out
       </Button>
     </Tooltip>
   );

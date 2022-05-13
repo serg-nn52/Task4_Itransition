@@ -1,14 +1,18 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { notification } from 'antd';
 import { axiosInstance } from 'network';
+const { SHA3 } = require('sha3');
+
+const hash = new SHA3(256);
 
 export const fetchRegAction = createAsyncThunk(
   `reg/fetchAll`,
   async (user, { rejectWithValue }) => {
     try {
+      hash.reset();
       const response = await axiosInstance.post('api/users/', {
         name: user.name,
-        password: user.password,
+        password: hash.update(user.password).digest('hex'),
         email: user.email,
       });
       return response.data;
@@ -42,9 +46,10 @@ export const fetchLogin = createAsyncThunk(
   `login/fetchAll`,
   async (user, { rejectWithValue }) => {
     try {
+      hash.reset();
       await axiosInstance.post('api/users/login/', {
         name: user.name,
-        password: user.password,
+        password: hash.update(user.password).digest('hex'),
       });
     } catch (error) {
       if (error.response.status === 404) {

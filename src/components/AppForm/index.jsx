@@ -50,7 +50,7 @@ const AppForm = (props) => {
             },
           ]}
         >
-          <Input placeholder="ivanov@yandex.by" />
+          <Input placeholder="ivanov@yandex.by" type="email" />
         </Form.Item>
       ) : null}
 
@@ -70,7 +70,7 @@ const AppForm = (props) => {
       <Form.Item className={style.buttons}>
         <div className={style.buttons}>
           <Button type="primary" htmlType="submit">
-            Send info
+            {isRegistration ? 'Register' : 'Sign In'}
           </Button>
           <Button type="primary" onClick={() => navigate(`${pathRedirect}`)}>
             {buttonTitle}
