@@ -7,3 +7,4 @@ export const getStatusUser = (id) => (store) =>
   store.user.users.filter((el) => el.name === id).length
     ? store.user.users.find((el) => el.name === id).status
     : true;
+export const getLoading = (store) => store.user.loading;

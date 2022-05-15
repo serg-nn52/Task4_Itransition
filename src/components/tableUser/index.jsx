@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Button, Table } from 'antd';
-import { getUsersList } from '../../store/selectors';
+import { getLoading, getUsersList } from '../../store/selectors';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { fetchRemoveUsers } from 'store/thunk';
@@ -75,6 +75,7 @@ const TableUser = () => {
   });
 
   const userName = useSelector(getUserName);
+  const loading = useSelector(getLoading);
 
   const handlerRemove = () => {
     dispatch(fetchRemoveUsers(checkedUsers));
@@ -91,30 +92,33 @@ const TableUser = () => {
     dispatch(fetchUnblockUsers(checkedUsers));
   };
 
-  return (
-    <>
-      {data.length === 0 && <h2>loading</h2>}
-      <div className={style.buttons}>
-        <Button type="primary" onClick={handlerBan}>
-          Block
-        </Button>
-        <Button type="primary" onClick={handlerUnblock}>
-          Unblock
-        </Button>
-        <Button type="primary" onClick={handlerRemove}>
-          Delete
-        </Button>
-      </div>
-      <Table
-        rowSelection={{
-          type: 'checkbox',
-          ...rowSelection,
-        }}
-        columns={columns}
-        dataSource={data}
-      />
-    </>
-  );
+  if (!data.length && !loading) {
+    return <h2>Данные не получены, попробуйте позднее!</h2>;
+  }
+  if (data.length)
+    return (
+      <>
+        <div className={style.buttons}>
+          <Button type="primary" onClick={handlerBan}>
+            Block
+          </Button>
+          <Button type="primary" onClick={handlerUnblock}>
+            Unblock
+          </Button>
+          <Button type="primary" onClick={handlerRemove}>
+            Delete
+          </Button>
+        </div>
+        <Table
+          rowSelection={{
+            type: 'checkbox',
+            ...rowSelection,
+          }}
+          columns={columns}
+          dataSource={data}
+        />
+      </>
+    );
 };
 
 export default TableUser;

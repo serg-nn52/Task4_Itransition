@@ -36,8 +36,9 @@ export const fetchGetUserList = createAsyncThunk(
       const response = await axiosInstance.get('api/users/');
       return response.data;
     } catch (error) {
-      notification.error({ message: 'Ошибка регистрации!' });
-      return rejectWithValue(error.message);
+      notification.error({ message: 'Ошибка!' });
+
+      return rejectWithValue(error);
     }
   },
 );

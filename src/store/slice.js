@@ -21,7 +21,7 @@ const userSlice = createSlice({
       state.userID = action.payload;
     },
     resetAuth(state) {
-      state.auth = false;
+      return (state = initialState);
     },
   },
   extraReducers: {
@@ -35,7 +35,7 @@ const userSlice = createSlice({
       state.auth = true;
     },
     [fetchRegAction.rejected.type]: (state) => {
-      state.loading = true;
+      state.loading = false;
       state.error = null;
     },
     [fetchGetUserList.pending.type]: (state) => {
@@ -47,7 +47,7 @@ const userSlice = createSlice({
       state.users = action.payload;
     },
     [fetchGetUserList.rejected.type]: (state) => {
-      state.loading = true;
+      state.loading = false;
       state.error = null;
     },
     [fetchLogin.pending.type]: (state) => {
@@ -59,7 +59,7 @@ const userSlice = createSlice({
       state.auth = true;
     },
     [fetchLogin.rejected.type]: (state) => {
-      state.loading = true;
+      state.loading = false;
       state.error = null;
       state.auth = false;
     },
@@ -72,7 +72,7 @@ const userSlice = createSlice({
       state.users = action.payload;
     },
     [fetchRemoveUsers.rejected.type]: (state) => {
-      state.loading = true;
+      state.loading = false;
       state.error = null;
       state.auth = false;
     },
@@ -85,7 +85,7 @@ const userSlice = createSlice({
       state.users = action.payload;
     },
     [fetchBanUsers.rejected.type]: (state) => {
-      state.loading = true;
+      state.loading = false;
       state.error = null;
       state.auth = false;
     },
@@ -98,7 +98,7 @@ const userSlice = createSlice({
       state.users = action.payload;
     },
     [fetchUnblockUsers.rejected.type]: (state) => {
-      state.loading = true;
+      state.loading = false;
       state.error = null;
       state.auth = false;
     },

@@ -1,13 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react';
 import { useSelector } from 'react-redux';
-
 import { getAuth } from 'store/selectors';
 import { Navigate } from 'react-router-dom';
-
-import style from './style.module.scss';
-import TableUser from 'components/tableUser';
+import TableUser from 'components/TableUser';
 import LogOut from 'components/LogOut';
+import style from './style.module.scss';
 
 const Main = () => {
   const isAuth = useSelector(getAuth);
@@ -16,6 +14,7 @@ const Main = () => {
     <div className={style.wrapper}>
       <LogOut />
       <h1>Main page</h1>
+
       <TableUser />
     </div>
   ) : (

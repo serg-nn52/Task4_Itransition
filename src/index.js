@@ -9,6 +9,8 @@ import { Provider } from 'react-redux';
 import store from './store';
 import { PersistGate } from 'redux-persist/integration/react';
 import { persistor } from './store';
+import ErrorBoundary from 'containers/ErrorBoundary';
+import Preloader from 'components/Preloader';
 
 const container = document.getElementById('root');
 const root = createRoot(container);
@@ -16,8 +18,10 @@ root.render(
   <Provider store={store}>
     <BrowserRouter>
       <ConfigProvider locale={ruRU}>
-        <PersistGate loading={<h2>Идет загрузка...</h2>} persistor={persistor}>
-          <App />
+        <PersistGate loading={<Preloader />} persistor={persistor}>
+          <ErrorBoundary>
+            <App />
+          </ErrorBoundary>
         </PersistGate>
       </ConfigProvider>
     </BrowserRouter>

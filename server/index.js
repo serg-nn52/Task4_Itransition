@@ -11,11 +11,15 @@ connect();
 // GET - request----------------------------------------------
 //get users list
 app.get('/api/users', cors(), (req, res) => {
-  const getAllUser = async () => {
-    const allUsers = await User.findAll();
-    res.send(allUsers);
-  };
-  getAllUser();
+  try {
+    const getAllUser = async () => {
+      const allUsers = await User.findAll();
+      res.send(allUsers);
+    };
+    getAllUser();
+  } catch (err) {
+    res.status(400).send(err);
+  }
 });
 
 // POST - request---------------------------------------------
@@ -126,6 +130,23 @@ app.put('/api/users/unblock', jsonParser, (req, res) => {
   };
   banUser();
 });
+
+app.get('*', cors(), (req, res) => {
+  res.status(400).send('error');
+});
+
+app.post('*', cors(), (req, res) => {
+  res.status(400).send('error');
+});
+
+app.put('*', cors(), (req, res) => {
+  res.status(400).send('error');
+});
+
+app.delete('*', cors(), (req, res) => {
+  res.status(400).send('error');
+});
+
 const port = process.env.PORT || 5000;
 
 app.use(express.static(path.resolve(__dirname, '../build')));
