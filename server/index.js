@@ -1,4 +1,4 @@
-const { User, connect } = require('./db');
+const { User, connect } = require('../task4/server/db');
 require('dotenv').config();
 const cors = require('cors');
 const path = require('path');
@@ -129,22 +129,6 @@ app.put('/api/users/unblock', jsonParser, (req, res) => {
     res.send(allUsers);
   };
   banUser();
-});
-
-app.get('*', cors(), (req, res) => {
-  res.status(400).send('error');
-});
-
-app.post('*', cors(), (req, res) => {
-  res.status(400).send('error');
-});
-
-app.put('*', cors(), (req, res) => {
-  res.status(400).send('error');
-});
-
-app.delete('*', cors(), (req, res) => {
-  res.status(400).send('error');
 });
 
 const port = process.env.PORT || 5000;
